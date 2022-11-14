@@ -1,191 +1,160 @@
 const data = {
-  coffee: 0,
+  coffee: 50,
   totalCPS: 0,
   producers: [
     {
-      id: 'chemex',
+      id: "chemex",
       price: 10,
       unlocked: false,
       cps: 1,
-      qty: 0
+      qty: 0,
     },
     {
-      id: 'french_press',
+      id: "french_press",
       price: 50,
       unlocked: false,
       cps: 2,
-      qty: 0
+      qty: 0,
     },
     {
-      id: 'mr._coffee',
+      id: "mr._coffee",
       price: 100,
       unlocked: false,
       cps: 5,
-      qty: 0
+      qty: 0,
     },
     {
-      id: 'ten_cup_urn',
+      id: "ten_cup_urn",
       price: 500,
       unlocked: false,
       cps: 10,
-      qty: 0
+      qty: 0,
     },
     {
-      id: 'espresso_machine',
+      id: "espresso_machine",
       price: 1000,
       unlocked: false,
       cps: 20,
-      qty: 0
+      qty: 0,
     },
     {
-      id: 'ten_gallon_urn',
+      id: "ten_gallon_urn",
       price: 5000,
       unlocked: false,
       cps: 50,
-      qty: 0
+      qty: 0,
     },
     {
-      id: 'coffeeshop',
+      id: "coffeeshop",
       price: 10000,
       unlocked: false,
       cps: 75,
-      qty: 0
+      qty: 0,
     },
     {
-      id: 'coffee_factory',
+      id: "coffee_factory",
       price: 50000,
       unlocked: false,
       cps: 100,
-      qty: 0
+      qty: 0,
     },
     {
-      id: 'coffee_fountain',
+      id: "coffee_fountain",
       price: 100000,
       unlocked: false,
       cps: 200,
-      qty: 0
+      qty: 0,
     },
     {
-      id: 'coffee_river',
+      id: "coffee_river",
       price: 500000,
       unlocked: false,
       cps: 500,
-      qty: 0
+      qty: 0,
     },
     {
-      id: 'coffee_ocean',
+      id: "coffee_ocean",
       price: 1000000,
       unlocked: false,
       cps: 1000,
-      qty: 0
+      qty: 0,
     },
     {
-      id: 'coffee_planet',
+      id: "coffee_planet",
       price: 5000000,
       unlocked: false,
       cps: 2000,
-      qty: 0
-    }
-  ]
+      qty: 0,
+    },
+  ],
 };
 
-// console.log(data)
+function canAffordProducer(data, producerId) {
+  let arrayOfAnObj = data.producers.filter((element) => element["id"] === producerId);
 
-// how to access produces
-// console.log(data.producers)
+  let producerIdsPrice = arrayOfAnObj[0].price;
 
-// how to access chemex's unlocked value false?
-// console.log(data.producers[0]["unlocked"])
+  return data.coffee >= producerIdsPrice ? true : false;
+}
 
-// // change the cheme's unlocked value from false to true
-// console.log(data.producers[0]["unlocked"] = true)
+function updateCPSView(cps) {
+  const cpsContainer = document.querySelector("#cps")
+  cpsContainer.innerText = cps;
+}
 
-// // how to get coffee price?
-// console.log(data.producers[0].price)
+function updatePrice(oldPrice) {
+  return Math.floor(oldPrice * 1.25)
+}
 
-// test
-let coffeeCount = 50;
+// - returns a boolean
+// - returns false if the player cannot afford the producer
+// - returns true if the player can afford the producer
+// - increments the quantity of the producer in question only if the player can afford it
+// - decrements the player's coffee by the *current* price of the producer, but only if the player can afford it
+// - updates the price of the producer to 125% of the previous price, rounded down, but only if the player can afford the producer
+// - updates the total CPS, but only if the player can afford the producer
+// - does not modify data in any way if the player tries to buy something they can't afford
 
-const test = data.producers.forEach(element => {
-  // console.log("price", element["price"])
-  // console.log("price 1/2", element["price"]/2)
 
 
-  if(coffeeCount >= element["price"]/2){
-    element["unlocked"] = true
-    
+function attemptToBuyProducer(data, producerId) {
+
+
+  if(canAffordProducer(data, producerId) === true){
+    // if player can afford the producer, return true
+    console.log("Player can afford producer!")
+    // if player can afford producer, increment the quantity of producer in question
+
+      // filter out object by producerId
+      let arrayOfAnObj = data.producers.filter((element)=>{
+        return element["id"] === producerId
+      })
+
+      console.log(arrayOfAnObj)
+
+      // increment the quantity of producer in question
+      // access producerId's qty value
+      let producerIdsQtyValue = arrayOfAnObj[0].qty 
+      console.log(producerIdsQtyValue)
+
+      producerIdsQtyValue++
+      // producerIdsQtyValue = producerIdsQtyValue + 1
+      console.log(producerIdsQtyValue)
+
+      console.log(arrayOfAnObj)
+      // updates price of producer to 125% of previous price, rounded down
+        // Hint: Use a function already written.
+        // updatePrice(data)
   }
-});
 
-// console.log(data)
-
-// 1) returns an array of producer objects
-// 2) filters out producer objects that are not unlocked
-
-// const test2 = data.producers.map((element)=>{
-//   return element
-// })
-
-// console.log(test2)
-
-// const filterOutProducerObjects = data.producers.filter((element) => {
-//   if(element["unlocked"] === false){
-//     return element["id"]
-//   }
-  
-// })
-
-// console.log(filterOutProducerObjects)
-
-// how to only return producers 0 id?
-
-// console.log(data.producers[0]["id"])
-
-// how to return only id?
-// const hmm = data.producers.map((element)=>{
-//   return element["id"]
-// })
-
-// console.log(hmm)
-
-const testStrings = [
-  'input_string',
-  'mr._coffee',
-  'Mr._Coffee',
-  '10_gallon_urn'
-];
-// const results = testStrings.map(code.makeDisplayNameFromId);
-// expect(results[0]).to.equal('Input String');
-// expect(results[1]).to.equal('Mr. Coffee');
-// expect(results[2]).to.equal('Mr. Coffee');
-// expect(results[3]).to.equal('10 Gallon Urn');
-
-// turn snake_string tp Title String
-
-let str = "10_gallon_urn"; // => 10 Gallon Urn
-
-let splitOutSnake = str.split("_")
-console.log(splitOutSnake)
-// output: [ '10', 'gallon', 'urn' ]
-
-let mapOut = splitOutSnake.map((element)=> {
-  return element[0].toUpperCase() + element.slice(1)
-          // 'g' => 'G'            // 'allon'
-          //  'G' + 'allon'
-          // "Gallon"
-})
-console.log(mapOut)
-// output: [ '10', 'Gallon', 'Urn' ]
-
-let joinElements = mapOut.join(" ")
-// console.log(joinElements)
-// output: 10 Gallon Urn
+  else if (canAffordProducer(data, producerId) === false){
+    console.log("false")
+  }
 
 
-// alternative
-let ret = str
-  .split("_")
-  // .filter(x => x.length > 0)
-  .map((x) => (x.charAt(0).toUpperCase() + x.slice(1)))
-  .join(" ");
-// console.log(ret);
+    // updates the total CPS, but only if the player can afford the producer
+      // Hint: Use a function already written.
+
+}
+
+attemptToBuyProducer(data, "chemex" )
